@@ -5,12 +5,12 @@ import itertools
 from collections import Counter
 
 salaryLimit = 50000
-salaryWaste = 750
+salaryWaste = 500
 
 headers = ['CPT', 'FLEX', 'FLEX', 'FLEX', 'FLEX', 'FLEX']
 
 cptPool = ['Scotty Miller', 'Darius Slayton', 'Buccaneers', 'Rob Gronkowski']
-flexPool = ['Darius Slayton', 'Tom Brady', 'Scotty Miller', 'Buccaneers', 'Wayne Gallman Jr.', 'Daniel Jones', 'Mike Evans', 'Rob Gronkowski', 'Cameron Brate', 'Golden Tate']
+flexPool = ['Darius Slayton', 'Sterling Shepard', 'Leonard Fournette', 'Tom Brady', 'Scotty Miller', 'Buccaneers', 'Wayne Gallman Jr.', 'Daniel Jones', 'Mike Evans', 'Rob Gronkowski', 'Cameron Brate', 'Golden Tate']
 
 output = '/Users/dmerrifield/lineups.csv'
 
@@ -138,12 +138,12 @@ for x in lineupsID:
         uniqueLineupsID.append(x)
         seen.add(srtd)
 
-for x in range(len(uniqueLineupsID)):
-    print(x)
+#for x in range(len(uniqueLineupsID)):
+    #print(x)
     #print(uniqueLineups[x])
     #print(uniqueLineupsID[x])
-    for y in uniqueLineupsID[x]:
-        print(player[y].id)        
+    #for y in uniqueLineupsID[x]:
+        #print(player[y].id)        
         
 with open(output, 'w') as myfile:
     wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
