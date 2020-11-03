@@ -9,10 +9,10 @@ salaryWaste = 500
 
 headers = ['CPT', 'FLEX', 'FLEX', 'FLEX', 'FLEX', 'FLEX']
 
-cptPool = ['Scotty Miller', 'Darius Slayton', 'Buccaneers', 'Rob Gronkowski']
-flexPool = ['Darius Slayton', 'Sterling Shepard', 'Leonard Fournette', 'Tom Brady', 'Scotty Miller', 'Buccaneers', 'Wayne Gallman Jr.', 'Daniel Jones', 'Mike Evans', 'Rob Gronkowski', 'Cameron Brate', 'Golden Tate']
+cptPool = ['Nick Mullens', 'Davante Adams', 'Brandon Aiyuk', 'JaMycal Hasty']
+flexPool = ['Nick Mullens', 'Davante Adams', 'Brandon Aiyuk', 'JaMycal Hasty', 'Aaron Rodgers', 'Allen Lazard', 'Robert Tonyan', 'Jordan Reed', 'Mason Crosby', 'Deebo Samuel', 'Packers']
 
-output = '/Users/dmerrifield/lineups.csv'
+output = '/Users/dmerrifield/lineups_captain.csv'
 
 class PlayerDetails():
     def __init__(self, filename):
@@ -107,6 +107,8 @@ for cpt in range(len(cptPool)):
                                             if (salaryTotal <= salaryLimit) and (salaryTotal > (salaryLimit - salaryWaste)):
                                                 #print(len(lineups))
                                                 #print(lineupCount)
+                                                #print(tmpLineup)
+                                                #print(salaryTotal)
                                                 lineups.append(tmpLineup)
                                                 flexLineup.append(tmpFlexLineup)
                                                 lineupsID.append(tmpLineupID)
@@ -154,3 +156,5 @@ with open(output, 'w') as myfile:
             tmpLineup.append(player[y].id)
         print(tmpLineup) 
         wr.writerow(tmpLineup)
+
+print('\ngenerated ' + str(len(uniqueLineupsID)) + ' unique lineups worth more than $' + str(salaryLimit - salaryWaste))

@@ -138,3 +138,5 @@ with open(output, 'w') as myfile:
             tmpLineup.append(player[y].id)
         print(tmpLineup) 
         wr.writerow(tmpLineup)
+        
+print('\ngenerated ' + str(len(uniqueLineupsID)) + ' unique lineups worth more than $' + str(salaryLimit - salaryWaste))
