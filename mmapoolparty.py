@@ -7,9 +7,11 @@ from collections import Counter
 salaryLimit = 50000
 salaryWaste = 500
 
+allowOpponents = True
+
 headers = ['FLEX', 'FLEX', 'FLEX', 'FLEX', 'FLEX', 'FLEX']
 
-flexPool = ['Thiago Santos', 'Darren Elkins','Xiaonan Yan','Alexandr Romanov','Brendan Allen','Trevin Giles','Andrei Arlovski','Bevon Lewis', 'Max Griffin']
+flexPool = ['Thiago Santos', 'Raoni Barcelos', 'Tanner Boser', 'Darren Elkins','Xiaonan Yan','Alexandr Romanov','Brendan Allen','Trevin Giles','Andrei Arlovski','Bevon Lewis', 'Max Griffin']
 
 output = '/Users/dmerrifield/lineups_mma.csv'
 
@@ -24,7 +26,7 @@ class PlayerDetails():
                 if count > 0:
                     print("loaded rows: " + str(count))
                     #print(row)
-                    player.append(Player(row[2], row[5], row[0], row[7], row[1], row[4]))
+                    player.append(Player(row[2], row[5], row[0], row[6], row[1], row[4]))
                     #print(player[count].name)
                 count+=1
 
@@ -34,11 +36,11 @@ class PlayerDetails():
         return self.details[row-1][col-1]
     
 class Player:
-    def __init__(self, name, salary, position, team, id, type):
+    def __init__(self, name, salary, position, gameInfo, id, type):
         self.name = name
         self.salary = salary
         self.position = position
-        self.team = team
+        self.gameInfo = gameInfo
         self.id = id
         self.type = type
         
@@ -122,12 +124,28 @@ for x in lineupsID:
         uniqueLineupsID.append(x)
         seen.add(srtd)
 
-#for x in range(len(uniqueLineupsID)):
-    #print(x)
-    #print(uniqueLineups[x])
-    #print(uniqueLineupsID[x])
-    #for y in uniqueLineupsID[x]:
-        #print(player[y].id)        
+tmpUniqueLineupsID = []
+
+if allowOpponents == False:
+    for x in range(len(uniqueLineupsID)):
+        #print(x)
+        #print(uniqueLineups[x])
+        #print(uniqueLineupsID[x])
+        oppCheck = False
+        #print('LINEUP ' + str(x))
+        for y in uniqueLineupsID[x]:
+            #print(player[y].id)
+            for z in uniqueLineupsID[x]:
+                if y != z:
+                    #print(player[y].gameInfo + ' ' + player[z].gameInfo)
+                    if player[y].gameInfo == player[z].gameInfo:
+                        oppCheck = True
+        #print('LINEUP ' + str(x) + ' ' + str(oppCheck))
+        if oppCheck == False:
+            tmpUniqueLineupsID.append(uniqueLineupsID[x])
+
+    uniqueLineupsID = tmpUniqueLineupsID
+        
         
 with open(output, 'w') as myfile:
     wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
@@ -139,4 +157,8 @@ with open(output, 'w') as myfile:
         print(tmpLineup) 
         wr.writerow(tmpLineup)
         
-print('\ngenerated ' + str(len(uniqueLineupsID)) + ' unique lineups worth more than $' + str(salaryLimit - salaryWaste))
+if allowOpponents:
+    print('\ngenerated ' + str(len(uniqueLineupsID)) + ' unique lineups worth more than $' + str(salaryLimit - salaryWaste) + ' with opponents ALLOWED')
+else:
+    print('\ngenerated ' + str(len(uniqueLineupsID)) + ' unique lineups worth more than $' + str(salaryLimit - salaryWaste) + ' with opponents NOT ALLOWED')
+   
