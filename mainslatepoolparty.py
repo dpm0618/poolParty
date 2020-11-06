@@ -6,10 +6,24 @@ from collections import Counter
 #    for row in reader:
 #        print(row)
 
+headers = ['QB', 'RB', 'RB', 'WR', 'WR', 'WR', 'TE', 'FLEX', 'DST']
+
 salaryLimit = 50000
 salaryWaste = 400
 
+qbPool = ['Ryan Tannehill']
+rbPool = ['Alvin Kamara', 'La\'Mical Perine', 'Jonathan Taylor', 'Kareem Hunt', 'Myles Gaskin', 'James White']
+wrPool = ['A.J. Brown', 'Tyreek Hill', 'Mike Williams', 'Jarvis Landry', 'Tyler Boyd', 'A.J. Green', 'Tee Higgins']
+tePool = ['Jonnu Smith']
+dstPool = ['Bears', 'Packers']
+flexPool = rbPool + wrPool + tePool
+
+coreStack = ['Ryan Tannehill', 'A.J. Brown', 'Jonnu Smith']
+runBack = ['Tyler Boyd','A.J. Green', 'Tee Higgins']
+
 runBackLimit = 1
+
+output = '/Users/dmerrifield/lineups_main_slate.csv'
 
 class PlayerDetails():
     def __init__(self, filename):
@@ -44,16 +58,6 @@ class Player:
 player = []
 
 data = PlayerDetails('/Users/dmerrifield/Downloads/DKSalaries.csv')
-
-qbPool = ['Ryan Tannehill']
-rbPool = ['Alvin Kamara', 'La\'Mical Perine', 'Jonathan Taylor', 'Kareem Hunt', 'Myles Gaskin', 'James White']
-wrPool = ['A.J. Brown', 'Tyreek Hill', 'Mike Williams', 'Jarvis Landry', 'Tyler Boyd', 'A.J. Green', 'Tee Higgins']
-tePool = ['Jonnu Smith']
-dstPool = ['Bears', 'Packers']
-flexPool = rbPool + wrPool + tePool
-
-coreStack = ['Ryan Tannehill', 'A.J. Brown', 'Jonnu Smith']
-runBack = ['Tyler Boyd','A.J. Green', 'Tee Higgins']
 
 lineupCount = 10
 qbPoolID = []
@@ -133,7 +137,7 @@ for qb in range(len(qbPool)):
                                                     for x in range(len(tmpLineup)):
                                                         salaryTotal = salaryTotal + int(player[tmpLineupID[x]].salary)
                                                     if (salaryTotal <= salaryLimit) and (salaryTotal > (salaryLimit - salaryWaste)):
-                                                        print(len(lineups))
+                                                        #print(len(lineups))
                                                         lineups.append(tmpLineup)
                                                         lineupsID.append(tmpLineupID)                                 
                                                         lineupCount+=1
@@ -161,6 +165,7 @@ for x in lineupsID:
         seen.add(srtd)
  
 tmpLineups = []
+tmpLineupsID = []
 for x in range(len(uniqueLineups)):
     if(set(coreStack).issubset(set(uniqueLineups[x]))):
         runBackCount = 0
@@ -169,7 +174,11 @@ for x in range(len(uniqueLineups)):
                 runBackCount+=1
         if (runBackCount <= runBackLimit) and (runBackCount >= 1):
             tmpLineups.append(uniqueLineups[x])
+            tmpLineupsID.append(uniqueLineupsID[x])
     #for w in range uniqueLineups[x]:
+
+uniqueLineups = tmpLineups
+uniqueLineupsID = tmpLineupsID
         
 for x in range(len(tmpLineups)):
     print(x)
@@ -180,3 +189,15 @@ for x in range(len(tmpLineups)):
 #    print(x)
 #    print(uniqueLineups[x])
 #    print(uniqueLineupsID[x])
+
+with open(output, 'w') as myfile:
+    wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
+    wr.writerow(headers)
+    for x in range(len(uniqueLineupsID)):
+        tmpLineup=[]
+        for y in uniqueLineupsID[x]:
+            tmpLineup.append(player[y].id)
+        print(tmpLineup) 
+        wr.writerow(tmpLineup)
+
+print('\ngenerated ' + str(len(uniqueLineupsID)) + ' unique lineups worth more than $' + str(salaryLimit - salaryWaste))
