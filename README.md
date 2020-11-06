@@ -12,3 +12,6 @@ update your $pool
 
 update your $salaryWaste
 
+FOR MMA:
+
+set allowOponnents = True/False
