@@ -180,9 +180,9 @@ for x in range(len(uniqueLineups)):
 uniqueLineups = tmpLineups
 uniqueLineupsID = tmpLineupsID
         
-for x in range(len(tmpLineups)):
-    print(x)
-    print(tmpLineups[x])
+#for x in range(len(tmpLineups)):
+#    print(x)
+#    print(tmpLineups[x])
     #print(uniqueLineupsID[x])
     
 #for x in range(len(uniqueLineups)):
