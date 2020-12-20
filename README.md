@@ -12,7 +12,7 @@ update your $pool
 
 update your $salaryWaste
 
-To configure exposure checking for a player set setExposure = True use the following format: [$player:$percentage], ie ['Vikings:20']
+To configure exposure checking for a player set setExposure = True and use the following format: [$player:$percentage], ie ['Vikings:20']
 
 FOR MMA:
 
