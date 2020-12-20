@@ -3,15 +3,19 @@
 import csv
 import itertools
 from collections import Counter
+#import random
 
 salaryLimit = 50000
-salaryWaste = 500
+salaryWaste = 300
 
-allowOpponents = True
+allowOpponents = False
+setExposure = False
 
-headers = ['FLEX', 'FLEX', 'FLEX', 'FLEX', 'FLEX', 'FLEX']
+headers = ['F', 'F', 'F', 'F', 'F', 'F']
 
-flexPool = ['Thiago Santos', 'Raoni Barcelos', 'Tanner Boser', 'Darren Elkins','Xiaonan Yan','Alexandr Romanov','Brendan Allen','Trevin Giles','Andrei Arlovski','Bevon Lewis', 'Max Griffin']
+flexPool = ['Stephen Thompson','Jose Aldo','Khaos Williams','Michel Pereira','Marlon Moraes','Marcin Tybura','Gillian Robertson','Jimmy Flick','Tafon Nchukwi']
+
+exposure = ['Charles Oliveira:50']
 
 output = '/Users/dmerrifield/lineups_mma.csv'
 
@@ -123,8 +127,15 @@ for x in lineupsID:
     if srtd not in seen:
         uniqueLineupsID.append(x)
         seen.add(srtd)
+        
+for x in lineups:
+    srtd = tuple(sorted(x))
+    if srtd not in seen:
+        uniqueLineups.append(x)
+        seen.add(srtd)
 
 tmpUniqueLineupsID = []
+tmpUniqueLineups= []
 
 if allowOpponents == False:
     for x in range(len(uniqueLineupsID)):
@@ -143,9 +154,67 @@ if allowOpponents == False:
         #print('LINEUP ' + str(x) + ' ' + str(oppCheck))
         if oppCheck == False:
             tmpUniqueLineupsID.append(uniqueLineupsID[x])
+            tmpUniqueLineups.append(uniqueLineups[x])
 
     uniqueLineupsID = tmpUniqueLineupsID
+    uniqueLineups = tmpUniqueLineups
+
+
+if setExposure:
+    
+    print("Checking exposure")
+    
+    tmpLineups = []
+    tmpLineupsID = []
+    
+    # for now just determine if the lineups do not contain any player in our exposure pool.
+    #This allows us to accurately determine how many lineups of each participant will be allowed after pruning. 
+    
+    for x in range(len(uniqueLineupsID)):
+
+        validLineup = True
+
+        for y in range(len(exposure)):
+
+            exposureCount = 0
+            playerName = exposure[y].split(':')[0]
+            playerExposure = float(int(exposure[y].split(':')[1]) / 100)
+            #print(playerName + ' with exposure ' + str(playerExposure * 100) + '%\n')
+            
+            if playerName in uniqueLineups[x]:
+                validLineup = False
         
+        if validLineup:
+            #print("Valid lineup found " + str(uniqueLineups[x]))
+            tmpLineups.append(uniqueLineups[x])
+            tmpLineupsID.append(uniqueLineupsID[x])
+    
+    #shuffledLineups = uniqueLineups
+    
+    baseLength = len(tmpLineups)
+    
+    print(str(baseLength) + " lineups without exposure-checked players")
+    
+    for x in range(len(exposure)):
+        exposureCount = 0
+        for y in range(len(uniqueLineupsID)):
+            playerName = exposure[x].split(':')[0]
+            playerExposure = float(int(exposure[x].split(':')[1]) / 100)
+            
+            #print("player " + playerName + " with exposure of " + str(playerExposure))
+            
+            if playerName in uniqueLineups[y] and exposureCount <= (baseLength * playerExposure) and uniqueLineups[y] not in tmpLineups:
+                print('exposureCount for ' + playerName + ' equal to ' + str(exposureCount) + ' out of ' + str(baseLength * playerExposure))
+                tmpLineups.append(uniqueLineups[y])
+                tmpLineupsID.append(uniqueLineupsID[y])
+                exposureCount+=1
+                baseLength+=1
+                
+            
+    uniqueLineups = tmpLineups
+    uniqueLineupsID = tmpLineupsID
+
+
         
 with open(output, 'w') as myfile:
     wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
