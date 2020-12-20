@@ -7,14 +7,14 @@ from collections import Counter
 salaryLimit = 50000
 salaryWaste = 400
 
-setExposure = False
+setExposure = True
 
 headers = ['CPT', 'FLEX', 'FLEX', 'FLEX', 'FLEX', 'FLEX']
 
 cptPool = ['Rashard Higgins','Kareem Hunt','Mark Andrews','Marquise Brown']
 flexPool = ['Rashard Higgins','Kareem Hunt','Mark Andrews','Marquise Brown','Lamar Jackson','Donovan Peoples-Jones','Nick Chubb','J.K. Dobbins','Justin Tucker','Ravens','Miles Boykin']
 
-exposure = ['Jacob Hollister:30']
+exposure = ['J.K. Dobbins:30']
 
 output = '/Users/dmerrifield/lineups_captain.csv'
 
@@ -138,17 +138,20 @@ uniqueFlexLineupsID = []
 #       uniqueFlexLineups.append(x)
 #        seen.add(srtd)
         
+count=0
 for x in lineupsID:
     srtd = tuple(sorted(x))
     if srtd not in seen:
         uniqueLineupsID.append(x)
+        uniqueLineups.append(lineups[count])
         seen.add(srtd)
+    count+=1
         
-for x in lineups:
-    srtd = tuple(sorted(x))
-    if srtd not in seen:
-        uniqueLineups.append(x)
-        seen.add(srtd)
+#for x in lineups:
+#    srtd = tuple(sorted(x))
+#    if srtd not in seen:
+#        uniqueLineups.append(x)
+#        seen.add(srtd)
 
 #for x in range(len(uniqueLineupsID)):
     #print(x)
@@ -160,6 +163,8 @@ for x in lineups:
 if setExposure:
     
     print("Checking exposure")
+    print(len(uniqueLineups))
+    print(len(uniqueLineupsID))
     
     tmpLineups = []
     tmpLineupsID = []
