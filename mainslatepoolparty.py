@@ -10,23 +10,23 @@ import random
 headers = ['QB', 'RB', 'RB', 'WR', 'WR', 'WR', 'TE', 'FLEX', 'DST']
 
 salaryLimit = 50000
-salaryWaste = 200
+salaryWaste = 400
 
-qbPool = ['Deshaun Watson']
-rbPool = ['Jonathan Taylor','Clyde Edwards-Helaire','Alvin Kamara','Kenyan Drake','Miles Sanders','D\'Andre Swift']
-wrPool = ['Brandin Cooks','Michael Pittman Jr.','Robert Woods','Corey Davis','Russell Gage','Mike Evans','DK Metcalf','Terry McLaurin']
-tePool = ['Jordan Akins']
-dstPool = ['WAS Football Team','Vikings']
+qbPool = ['Aaron Rodgers','Josh Allen']
+rbPool = ['Aaron Jones','Ronald Jones II','Clyde Edwards-Helaire']
+wrPool = ['Davante Adams','Stefon Diggs','Tyreek Hill','Cole Beasley','Allen Lazard','John Brown','Mike Evans']
+tePool = ['Robert Tonyan','Travis Kelce']
+dstPool = ['Chiefs','Packers']
 flexPool = rbPool + wrPool + tePool
 
-coreStack = ['Deshaun Watson','Brandin Cooks','Jordan Akins']
-runBack = ['Michael Pittman Jr.','Jonathan Taylor']
+coreStack = ['Davante Adams','Robert Tonyan','Stefon Diggs']
+runBack = ['Cole Beasley','John Brown']
 
 runBackLimit = 1
 
-setExposure = True
+setExposure = False
 
-exposure = ['Vikings:20']
+exposure = ['Jaguars:20','Antonio Gibson:30']
 
 #setPairs = True
 

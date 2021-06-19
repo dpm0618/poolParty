@@ -6,16 +6,17 @@ from collections import Counter
 #import random
 
 salaryLimit = 50000
-salaryWaste = 300
+salaryWaste = 400
 
 allowOpponents = False
-setExposure = False
+setExposure = True
 
 headers = ['F', 'F', 'F', 'F', 'F', 'F']
 
-flexPool = ['Stephen Thompson','Jose Aldo','Khaos Williams','Michel Pereira','Marlon Moraes','Marcin Tybura','Gillian Robertson','Jimmy Flick','Tafon Nchukwi']
+flexPool = ['Leon Edwards','Israel Adesanya','Movsar Evloev','Deiveson Figueiredo','Belal Muhammad','Matt Frevola','Brad Riddell','Carlos Felipe','Paul Craig','Lauren Murphy','Luigi Vendramini','Eryk Anders','Chase Hooper']
 
-exposure = ['Charles Oliveira:50']
+#format: exposure = ['Tom Breese:40']
+exposure = ['Paul Craig:30','Lauren Murphy:40']
 
 output = '/Users/dmerrifield/lineups_mma.csv'
 

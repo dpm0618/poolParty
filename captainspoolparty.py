@@ -5,16 +5,16 @@ import itertools
 from collections import Counter
 
 salaryLimit = 50000
-salaryWaste = 400
+salaryWaste = 300
 
-setExposure = True
+setExposure = False
 
 headers = ['CPT', 'FLEX', 'FLEX', 'FLEX', 'FLEX', 'FLEX']
 
-cptPool = ['Rashard Higgins','Kareem Hunt','Mark Andrews','Marquise Brown']
-flexPool = ['Rashard Higgins','Kareem Hunt','Mark Andrews','Marquise Brown','Lamar Jackson','Donovan Peoples-Jones','Nick Chubb','J.K. Dobbins','Justin Tucker','Ravens','Miles Boykin']
+cptPool = ['Patrick Mahomes','Travis Kelce','Tom Brady','Chris Godwin']
+flexPool = ['Patrick Mahomes','Travis Kelce','Tom Brady','Chris Godwin','Mike Evans','Tyreek Hill','Sammy Watkins','Ronald Jones II','Scotty Miller','Antonio Brown','Cameron Brate']
 
-exposure = ['J.K. Dobbins:30']
+exposure = []
 
 output = '/Users/dmerrifield/lineups_captain.csv'
 
