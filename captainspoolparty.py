@@ -8,13 +8,22 @@ salaryLimit = 50000
 salaryWaste = 300
 
 setExposure = False
+setAvoidMatches = False
+setQBCount = False
+
+qbMin = 1
+qbMax = 2
 
 headers = ['CPT', 'FLEX', 'FLEX', 'FLEX', 'FLEX', 'FLEX']
 
-cptPool = ['Patrick Mahomes','Travis Kelce','Tom Brady','Chris Godwin']
-flexPool = ['Patrick Mahomes','Travis Kelce','Tom Brady','Chris Godwin','Mike Evans','Tyreek Hill','Sammy Watkins','Ronald Jones II','Scotty Miller','Antonio Brown','Cameron Brate']
+cptPool = ['Tom Brady','Jalen Hurts','Mike Evans','Chris Godwin','Antonio Brown','Leonard Fournette','DeVonta Smith']
+flexPool = ['Tom Brady','Jalen Hurts','Mike Evans','Chris Godwin','Antonio Brown','Leonard Fournette','DeVonta Smith','Jalen Reagor','Quez Watkins','Zach Ertz','Jake Elliott']
 
-exposure = []
+#exposure = ['DeVonta Smith:30']
+exposure = ['DeVonta Smith:30']
+
+#avoidMatches = ['Mike Evans:Chris Godwin']
+avoidMatches = ['Mike Evans:Chris Godwin']
 
 output = '/Users/dmerrifield/lineups_captain.csv'
 
@@ -159,6 +168,52 @@ for x in lineupsID:
     #print(uniqueLineupsID[x])
     #for y in uniqueLineupsID[x]:
         #print(player[y].id)        
+
+#optimizer
+
+if setAvoidMatches:
+    
+    print("Checking for avoided matches")
+    
+    tmpLineups = []
+    tmpLineupsID = []
+    
+    for x in range(len(avoidMatches)):
+        avoidA = avoidMatches[x].split(':')[0]
+        avoidB = avoidMatches[x].split(':')[1]
+        for y in range(len(uniqueLineupsID)):    
+            if avoidA not in uniqueLineups[y] or avoidB not in uniqueLineups[y]:
+                tmpLineups.append(uniqueLineups[y])
+                tmpLineupsID.append(uniqueLineupsID[y])
+    
+    uniqueLineups = tmpLineups
+    uniqueLineupsID = tmpLineupsID
+ 
+
+if setQBCount:
+    
+    print("Checking AB count settings")
+    
+    tmpLineups = []
+    tmpLineupsID = []
+    
+    for x in range(len(uniqueLineupsID)):
+        
+        qbCount = 0
+        
+        for y in range(len(uniqueLineupsID[x])):
+            if player[uniqueLineupsID[x][y]].position == 'QB':
+                qbCount+=1
+        
+        if qbCount >= qbMin and qbCount <= qbMax : 
+            tmpLineups.append(uniqueLineups[x])
+            tmpLineupsID.append(uniqueLineupsID[x])
+    
+    uniqueLineups = tmpLineups
+    uniqueLineupsID = tmpLineupsID
+        
+        
+#exposure
 
 if setExposure:
     
