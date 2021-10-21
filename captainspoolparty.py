@@ -5,9 +5,9 @@ import itertools
 from collections import Counter
 
 salaryLimit = 50000
-salaryWaste = 300
+salaryWaste = 400
 
-setExposure = False
+setExposure = True
 setAvoidPairs = True
 setQBCount = True
 
@@ -16,14 +16,14 @@ qbMax = 2
 
 headers = ['CPT', 'FLEX', 'FLEX', 'FLEX', 'FLEX', 'FLEX']
 
-cptPool = ['Tom Brady','Jalen Hurts','Mike Evans','Chris Godwin','Antonio Brown','Leonard Fournette','DeVonta Smith']
-flexPool = ['Tom Brady','Jalen Hurts','Mike Evans','Chris Godwin','Antonio Brown','Leonard Fournette','DeVonta Smith','Jalen Reagor','Quez Watkins','Zach Ertz','Jake Elliott']
+cptPool = ['Noah Fant','Jarvis Landry','D\'Ernest Johnson','Case Keenum']
+flexPool = ['Noah Fant','Jarvis Landry','D\'Ernest Johnson','Case Keenum','Jarvis Landry','Teddy Bridgewater','Courtland Sutton','Tim Patrick','Javonte Williams','Donovan Peoples-Jones','Austin Hooper','Rashard Higgins','Demetric Felton','Brandon McManus','Chase McLaughlin']
 
 #exposure = ['DeVonta Smith:30']
-exposure = ['DeVonta Smith:50']
+exposure = ['Courtland Sutton:40']
 
 #avoidPairs = ['Mike Evans:Chris Godwin']
-avoidPairs = ['Mike Evans:Chris Godwin']
+avoidPairs = ['Demetric Felton:D\'Ernest Johnson','Jarvis Landry:Donovan Peoples-Jones','Courtland Sutton:Tim Patrick']
 
 output = '/Users/dmerrifield/lineups_captain.csv'
 
@@ -187,8 +187,10 @@ if setAvoidPairs:
                 tmpLineups.append(uniqueLineups[y])
                 tmpLineupsID.append(uniqueLineupsID[y])
     
-    uniqueLineups = tmpLineups
-    uniqueLineupsID = tmpLineupsID
+        uniqueLineups = tmpLineups
+        uniqueLineupsID = tmpLineupsID
+        tmpLineups = []
+        tmpLineupsID = []
  
 
 if setQBCount:
