@@ -8,8 +8,8 @@ salaryLimit = 50000
 salaryWaste = 300
 
 setExposure = False
-setAvoidMatches = False
-setQBCount = False
+setAvoidPairs = True
+setQBCount = True
 
 qbMin = 1
 qbMax = 2
@@ -20,7 +20,7 @@ cptPool = ['Tom Brady','Jalen Hurts','Mike Evans','Chris Godwin','Antonio Brown'
 flexPool = ['Tom Brady','Jalen Hurts','Mike Evans','Chris Godwin','Antonio Brown','Leonard Fournette','DeVonta Smith','Jalen Reagor','Quez Watkins','Zach Ertz','Jake Elliott']
 
 #exposure = ['DeVonta Smith:30']
-exposure = ['DeVonta Smith:30']
+exposure = ['DeVonta Smith:50']
 
 #avoidMatches = ['Mike Evans:Chris Godwin']
 avoidMatches = ['Mike Evans:Chris Godwin']
@@ -41,7 +41,8 @@ class PlayerDetails():
                     player.append(Player(row[2], row[5], row[0], row[7], row[1], row[4]))
                     #print(player[count].name)
                 count+=1
-
+                
+            print()    
             self.details = list(csv_input)
 
     def get_col_row(self, col, row):
@@ -171,9 +172,9 @@ for x in lineupsID:
 
 #optimizer
 
-if setAvoidMatches:
+if setAvoidPairs:
     
-    print("Checking for avoided matches")
+    print("\nChecking for avoided pairs")
     
     tmpLineups = []
     tmpLineupsID = []
@@ -192,7 +193,7 @@ if setAvoidMatches:
 
 if setQBCount:
     
-    print("Checking AB count settings")
+    print("\nChecking QB count settings")
     
     tmpLineups = []
     tmpLineupsID = []
@@ -217,7 +218,7 @@ if setQBCount:
 
 if setExposure:
     
-    print("Checking exposure")
+    print("\nChecking exposure")
     print(len(uniqueLineups))
     print(len(uniqueLineupsID))
     
@@ -271,6 +272,7 @@ if setExposure:
     uniqueLineups = tmpLineups
     uniqueLineupsID = tmpLineupsID
 
+print()
 with open(output, 'w') as myfile:
     wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
     wr.writerow(headers)
@@ -280,5 +282,23 @@ with open(output, 'w') as myfile:
             tmpLineup.append(player[y].id)
         print(tmpLineup) 
         wr.writerow(tmpLineup)
+
+#print total exposure for all players
+print("\nCPT DISTRIBUTION:")
+for x in range(len(cptPool)):
+    count = 0
+    for y in range(len(uniqueLineups)):
+        if cptPool[x] == uniqueLineups[y][0]:
+            count+=1
+    print('CPT  ' + cptPool[x] + ':  ' + str(count))  
+
+print("\nFLEX DISTRIBUTION:")
+for x in range(len(flexPool)):
+    count = 0
+    for y in range(len(uniqueLineups)):
+        if flexPool[x] in uniqueLineups[y] and uniqueLineups[y].index(flexPool[x]) != 0:
+            count+=1
+    print('FLEX ' + flexPool[x] + ':  ' + str(count))  
+
 
 print('\ngenerated ' + str(len(uniqueLineupsID)) + ' unique lineups worth more than $' + str(salaryLimit - salaryWaste))
