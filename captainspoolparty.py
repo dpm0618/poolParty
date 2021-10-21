@@ -22,8 +22,8 @@ flexPool = ['Tom Brady','Jalen Hurts','Mike Evans','Chris Godwin','Antonio Brown
 #exposure = ['DeVonta Smith:30']
 exposure = ['DeVonta Smith:50']
 
-#avoidMatches = ['Mike Evans:Chris Godwin']
-avoidMatches = ['Mike Evans:Chris Godwin']
+#avoidPairs = ['Mike Evans:Chris Godwin']
+avoidPairs = ['Mike Evans:Chris Godwin']
 
 output = '/Users/dmerrifield/lineups_captain.csv'
 
@@ -81,7 +81,7 @@ for x in range(len(flexPool)):
 print(cptPoolID)
 print(flexPoolID)
 
-print('CPT' + '\t' + 'FLEX' + '\t' + 'FLEX' + '\t' + 'FLEX' + '\t' + 'FLEX'+ '\t' + 'FLEX')
+#print('CPT' + '\t' + 'FLEX' + '\t' + 'FLEX' + '\t' + 'FLEX' + '\t' + 'FLEX'+ '\t' + 'FLEX')
     
 lineupCount=0
 lineups=[]
@@ -179,9 +179,9 @@ if setAvoidPairs:
     tmpLineups = []
     tmpLineupsID = []
     
-    for x in range(len(avoidMatches)):
-        avoidA = avoidMatches[x].split(':')[0]
-        avoidB = avoidMatches[x].split(':')[1]
+    for x in range(len(avoidPairs)):
+        avoidA = avoidPairs[x].split(':')[0]
+        avoidB = avoidPairs[x].split(':')[1]
         for y in range(len(uniqueLineupsID)):    
             if avoidA not in uniqueLineups[y] or avoidB not in uniqueLineups[y]:
                 tmpLineups.append(uniqueLineups[y])
