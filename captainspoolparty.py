@@ -23,7 +23,7 @@ flexPool = ['Tom Brady','Jalen Hurts','Mike Evans','Chris Godwin','Antonio Brown
 exposure = ['DeVonta Smith:50']
 
 #avoidMatches = ['Mike Evans:Chris Godwin']
-avoidMatches = ['Mike Evans:Chris Godwin']
+avoidPairs = ['Mike Evans:Chris Godwin']
 
 output = '/Users/dmerrifield/lineups_captain.csv'
 
