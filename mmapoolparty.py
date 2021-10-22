@@ -9,14 +9,14 @@ salaryLimit = 50000
 salaryWaste = 400
 
 allowOpponents = False
-setExposure = True
+setExposure = False
 
 headers = ['F', 'F', 'F', 'F', 'F', 'F']
 
-flexPool = ['Leon Edwards','Israel Adesanya','Movsar Evloev','Deiveson Figueiredo','Belal Muhammad','Matt Frevola','Brad Riddell','Carlos Felipe','Paul Craig','Lauren Murphy','Luigi Vendramini','Eryk Anders','Chase Hooper']
+flexPool = ['Ludovit Klein','Ariane Carnelossi','Brandon Davis','Manon Fiorot','Loopy Godinez','Andrew Sanchez','Jim Miller','Norma Dumont','Ramazan Emeev','Andrei Arlovski']
 
 #format: exposure = ['Tom Breese:40']
-exposure = ['Paul Craig:30','Lauren Murphy:40']
+exposure = ['Jared Gooden:30']
 
 output = '/Users/dmerrifield/lineups_mma.csv'
 
@@ -226,7 +226,15 @@ with open(output, 'w') as myfile:
             tmpLineup.append(player[y].id)
         print(tmpLineup) 
         wr.writerow(tmpLineup)
-        
+
+print("\nFIGHTER DISTRIBUTION:")
+for x in range(len(flexPool)):
+    count = 0
+    for y in range(len(uniqueLineups)):
+        if flexPool[x] in uniqueLineups[y]:
+            count+=1
+    print('FLEX ' + flexPool[x] + ':  ' + str(count)) 
+
 if allowOpponents:
     print('\ngenerated ' + str(len(uniqueLineupsID)) + ' unique lineups worth more than $' + str(salaryLimit - salaryWaste) + ' with opponents ALLOWED')
 else:
