@@ -10,23 +10,26 @@ import random
 headers = ['QB', 'RB', 'RB', 'WR', 'WR', 'WR', 'TE', 'FLEX', 'DST']
 
 salaryLimit = 50000
-salaryWaste = 400
+salaryWaste = 500
 
-qbPool = ['Aaron Rodgers','Josh Allen']
-rbPool = ['Aaron Jones','Ronald Jones II','Clyde Edwards-Helaire']
-wrPool = ['Davante Adams','Stefon Diggs','Tyreek Hill','Cole Beasley','Allen Lazard','John Brown','Mike Evans']
-tePool = ['Robert Tonyan','Travis Kelce']
-dstPool = ['Chiefs','Packers']
-flexPool = rbPool + wrPool + tePool
+qbPool = ['Tom Brady']
+rbPool = ['Christian McCaffrey','Jonathan Taylor','D\'Andre Swift','Cordarrelle Patterson','Leonard Fournette','Aaron Jones','Ezekiel Elliott','Michael Carter','Najee Harris','D\'Ernest Johnson']
+wrPool = ['Emmanuel Sanders','Mike Evans','Jerry Jeudy','Donovan Peoples-Jones','Marquez Valdes-Scantling','Terry McLaurin','Chris Godwin','Michael Gallup','Michael Pittman Jr.']
+tePool = ['Ricky Seals-Jones','Kyle Pitts']
+dstPool = ['Lions']
+#flexPool = rbPool + wrPool + tePool
+flexPool = rbPool + wrPool
 
-coreStack = ['Davante Adams','Robert Tonyan','Stefon Diggs']
-runBack = ['Cole Beasley','John Brown']
+coreStack = ['Tom Brady']
+runBack = ['Mike Evans','Chris Godwin','Ricky Seals-Jones','Terry McLaurin']
 
-runBackLimit = 1
+runBackLimit = 3
 
-setExposure = False
+setExposure = True
+setAvoidPairs = True
 
-exposure = ['Jaguars:20','Antonio Gibson:30']
+exposure = ['Donovan Peoples-Jones:60','Marquez Valdes-Scantling:50','Michael Gallup:40','D\'Ernest Johnson:40','Jerry Jeudy:40']
+avoidPairs = ['Ricky Seals-Jones:Terry McLaurin','Michael Pittman Jr.:Jonathan Taylor']
 
 #setPairs = True
 
@@ -187,7 +190,28 @@ for x in range(len(uniqueLineups)):
 uniqueLineups = tmpLineups
 uniqueLineupsID = tmpLineupsID
 
-random.shuffle(uniqueLineups)
+#random.shuffle(uniqueLineups)
+
+if setAvoidPairs:
+    
+    print("\nChecking for avoided pairs")
+    
+    tmpLineups = []
+    tmpLineupsID = []
+    
+    for x in range(len(avoidPairs)):
+        avoidA = avoidPairs[x].split(':')[0]
+        avoidB = avoidPairs[x].split(':')[1]
+        for y in range(len(uniqueLineupsID)):    
+            if avoidA not in uniqueLineups[y] or avoidB not in uniqueLineups[y]:
+                tmpLineups.append(uniqueLineups[y])
+                tmpLineupsID.append(uniqueLineupsID[y])
+    
+        uniqueLineups = tmpLineups
+        uniqueLineupsID = tmpLineupsID
+        tmpLineups = []
+        tmpLineupsID = []
+ 
 
 if setExposure:
     
@@ -255,10 +279,10 @@ if setExposure:
 #    print(tmpLineups[x])
     #print(uniqueLineupsID[x])
     
-#for x in range(len(uniqueLineups)):
-#    print(x)
-#    print(uniqueLineups[x])
-#    print(uniqueLineupsID[x])
+for x in range(len(uniqueLineups)):
+    print(x)
+    print(uniqueLineups[x])
+    print(uniqueLineupsID[x])
 
 
 #print('QB' + '\t' + 'RB' + '\t' + 'WR' + '\t' + 'TE' + '\t' + 'DST')
@@ -272,5 +296,45 @@ with open(output, 'w') as myfile:
             tmpLineup.append(player[y].id)
         print(tmpLineup) 
         wr.writerow(tmpLineup)
-
+        
+print("\nQB DISTRIBUTION:")
+for x in range(len(qbPool)):
+    count = 0
+    for y in range(len(uniqueLineups)):
+        if qbPool[x] in uniqueLineups[y]:
+            count+=1
+    print('QB ' + qbPool[x] + ':  ' + str(count))
+    
+print("\nRB DISTRIBUTION:")
+for x in range(len(rbPool)):
+    count = 0
+    for y in range(len(uniqueLineups)):
+        if rbPool[x] in uniqueLineups[y]:
+            count+=1
+    print('RB ' + rbPool[x] + ':  ' + str(count))
+    
+print("\nWR DISTRIBUTION:")
+for x in range(len(wrPool)):
+    count = 0
+    for y in range(len(uniqueLineups)):
+        if wrPool[x] in uniqueLineups[y]:
+            count+=1
+    print('WR ' + wrPool[x] + ':  ' + str(count))
+    
+print("\nTE DISTRIBUTION:")
+for x in range(len(tePool)):
+    count = 0
+    for y in range(len(uniqueLineups)):
+        if tePool[x] in uniqueLineups[y]:
+            count+=1
+    print('TE ' + tePool[x] + ':  ' + str(count))
+    
+print("\nDST DISTRIBUTION:")
+for x in range(len(dstPool)):
+    count = 0
+    for y in range(len(uniqueLineups)):
+        if dstPool[x] in uniqueLineups[y]:
+            count+=1
+    print('DST ' + dstPool[x] + ':  ' + str(count))
+        
 print('\ngenerated ' + str(len(uniqueLineupsID)) + ' unique lineups worth more than $' + str(salaryLimit - salaryWaste))
