@@ -2,28 +2,31 @@
 
 import csv
 import itertools
+import random
 from collections import Counter
 
 salaryLimit = 50000
-salaryWaste = 400
+salaryWaste = 500
 
 setExposure = True
 setAvoidPairs = True
 setQBCount = True
+#Shuffling will only impact the output if setExposure = True
+setShuffle = True
 
 qbMin = 1
 qbMax = 2
 
 headers = ['CPT', 'FLEX', 'FLEX', 'FLEX', 'FLEX', 'FLEX']
 
-cptPool = ['Noah Fant','Jarvis Landry','D\'Ernest Johnson','Case Keenum']
-flexPool = ['Noah Fant','Jarvis Landry','D\'Ernest Johnson','Case Keenum','Jarvis Landry','Teddy Bridgewater','Courtland Sutton','Tim Patrick','Javonte Williams','Donovan Peoples-Jones','Austin Hooper','Rashard Higgins','Demetric Felton','Brandon McManus','Chase McLaughlin']
+cptPool = ['Cooper Kupp','Matthew Stafford','Joe Burrow','Ja\'Marr Chase','Joe Mixon']
+flexPool = ['Cooper Kupp','Matthew Stafford','Joe Burrow','Ja\'Marr Chase','Joe Mixon','Odell Beckham Jr.','Tee Higgins','Cam Akers','Tyler Boyd','Van Jefferson','Kendall Blanton','Drew Sample','Evan McPherson','Matt Gay','Rams','Samaje Perine','Bengals','Sony Michel']
 
 #exposure = ['DeVonta Smith:30']
-exposure = ['Courtland Sutton:40']
+exposure = ['Drew Sample:30','Rams:25','Bengals:25','Samaje Perine:25','Kendall Blanton:40','Sony Michel:25']
 
 #avoidPairs = ['Mike Evans:Chris Godwin']
-avoidPairs = ['Demetric Felton:D\'Ernest Johnson','Jarvis Landry:Donovan Peoples-Jones','Courtland Sutton:Tim Patrick']
+avoidPairs = ['Evan McPherson:Matt Gay','Van Jefferson:Odell Beckham Jr.','Ja\'Marr Chase:Joe Mixon','Tee Higgins:Tyler Boyd','Kendall Blanton:Drew Sample','Matt Gay:Matthew Stafford','Evan McPherson:Joe Burrow','Rams:Joe Burrow','Samaje Perine:Joe Mixon','Bengals:Matthew Stafford','Sony Michel:Cam Akers']
 
 output = '/Users/dmerrifield/lineups_captain.csv'
 
@@ -38,7 +41,7 @@ class PlayerDetails():
                 if count > 0:
                     print("loaded rows: " + str(count))
                     #print(row)
-                    player.append(Player(row[2], row[5], row[0], row[7], row[1], row[4]))
+                    player.append(Player(row[2], row[5], row[0], row[7], row[1], row[4], count))
                     #print(player[count].name)
                 count+=1
                 
@@ -49,13 +52,14 @@ class PlayerDetails():
         return self.details[row-1][col-1]
     
 class Player:
-    def __init__(self, name, salary, position, team, id, type):
+    def __init__(self, name, salary, position, team, id, type, rowNum):
         self.name = name
         self.salary = salary
         self.position = position
         self.team = team
         self.id = id
         self.type = type
+        self.rowNum = rowNum
         
     #def get_salary_by_name(self, name):
         #if self.name == name
@@ -216,6 +220,14 @@ if setQBCount:
     uniqueLineupsID = tmpLineupsID
         
         
+#shuffle
+
+if setShuffle:
+
+    merged = list(zip(uniqueLineups,uniqueLineupsID))
+    random.shuffle(merged)
+    uniqueLineups, uniqueLineupsID = zip(*merged)
+
 #exposure
 
 if setExposure:
@@ -257,16 +269,25 @@ if setExposure:
     
     for x in range(len(exposure)):
         exposureCount = 0
+        currentCount = 0
+        
+        playerName = exposure[x].split(':')[0]
+        playerExposure = float(int(exposure[x].split(':')[1]) / 100)
+        
+        #see if previous loops have already added an exposure checked player
+        
+        for y in range(len(tmpLineups)):
+            currentCount+= tmpLineups[y].count(playerName)
+            
+        print("player " + playerName + " with exposure of " + str(playerExposure) + " currently in " + str(currentCount) + " lineups")
+            
         for y in range(len(uniqueLineupsID)):
-            playerName = exposure[x].split(':')[0]
-            playerExposure = float(int(exposure[x].split(':')[1]) / 100)
             
-            #print("player " + playerName + " with exposure of " + str(playerExposure))
-            
-            if playerName in uniqueLineups[y] and exposureCount <= (baseLength * playerExposure) and uniqueLineups[y] not in tmpLineups:
-                print('exposureCount for ' + playerName + ' equal to ' + str(exposureCount) + ' out of ' + str(baseLength * playerExposure))
+            if playerName in uniqueLineups[y] and (exposureCount + currentCount) <= (baseLength * playerExposure) and uniqueLineups[y] not in tmpLineups:
+                print('exposureCount for ' + playerName + ' equal to ' + str(exposureCount + currentCount) + ' out of ' + str(baseLength * playerExposure))
                 tmpLineups.append(uniqueLineups[y])
                 tmpLineupsID.append(uniqueLineupsID[y])
+                print('adding lineup ' + str(uniqueLineups[y]))
                 exposureCount+=1
                 baseLength+=1
                 

@@ -2,21 +2,24 @@
 
 import csv
 import itertools
+import random
 from collections import Counter
 #import random
 
 salaryLimit = 50000
-salaryWaste = 400
+salaryWaste = 500
 
 allowOpponents = False
-setExposure = False
+setExposure = True
+#Shuffling will only impact the output if setExposure = True
+setShuffle = True
 
 headers = ['F', 'F', 'F', 'F', 'F', 'F']
 
-flexPool = ['Ludovit Klein','Ariane Carnelossi','Brandon Davis','Manon Fiorot','Loopy Godinez','Andrew Sanchez','Jim Miller','Norma Dumont','Ramazan Emeev','Andrei Arlovski']
+flexPool = ['Raoni Barcelos','Jack Della Maddalena','Said Nurmagomedov','Tony Gravely','Michel Pereira','Matt Frevola','Kay Hansen','Michael Morales','Deiveson Figueiredo','Ciryl Gane','Francis Ngannou','Brandon Moreno','Silvana Gomez Juarez']
 
 #format: exposure = ['Tom Breese:40']
-exposure = ['Jared Gooden:30']
+exposure = ['Francis Ngannou:30','Brandon Moreno:30']
 
 output = '/Users/dmerrifield/lineups_mma.csv'
 
@@ -161,6 +164,14 @@ if allowOpponents == False:
     uniqueLineups = tmpUniqueLineups
 
 
+#shuffle
+
+if setShuffle:
+
+    merged = list(zip(uniqueLineups,uniqueLineupsID))
+    random.shuffle(merged)
+    uniqueLineups, uniqueLineupsID = zip(*merged)
+
 if setExposure:
     
     print("Checking exposure")
@@ -198,13 +209,19 @@ if setExposure:
     
     for x in range(len(exposure)):
         exposureCount = 0
+        currentCount = 0
+        
+        playerName = exposure[x].split(':')[0]
+        playerExposure = float(int(exposure[x].split(':')[1]) / 100)
+        
+        for y in range(len(tmpLineups)):
+            currentCount+= tmpLineups[y].count(playerName)
+        
         for y in range(len(uniqueLineupsID)):
-            playerName = exposure[x].split(':')[0]
-            playerExposure = float(int(exposure[x].split(':')[1]) / 100)
             
             #print("player " + playerName + " with exposure of " + str(playerExposure))
             
-            if playerName in uniqueLineups[y] and exposureCount <= (baseLength * playerExposure) and uniqueLineups[y] not in tmpLineups:
+            if playerName in uniqueLineups[y] and (exposureCount + currentCount) <= (baseLength * playerExposure) and uniqueLineups[y] not in tmpLineups:
                 print('exposureCount for ' + playerName + ' equal to ' + str(exposureCount) + ' out of ' + str(baseLength * playerExposure))
                 tmpLineups.append(uniqueLineups[y])
                 tmpLineupsID.append(uniqueLineupsID[y])
