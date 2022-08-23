@@ -6,6 +6,9 @@ import random
 from collections import Counter
 import tkinter as tk
 
+inputPath = '/Users/Dan/Downloads/DKSalaries_captains.csv'
+outputPath = '/Users/Dan/lineups_captain.csv'
+
 root = tk.Tk()
 root.geometry('625x700')
 root.configure(bg='#202245')
@@ -62,11 +65,17 @@ def addExposure():
     printExposureSliders()
         
 def printExposureSliders():
-    exposureCount = 0
     for x in range(0,len(exposureSlider)):
+        #if x >= exposureList.size():
         exposureSlider[x].destroy()
+        del exposureSlider[x]
         exposureLabel[x].destroy()
-        
+        del exposureLabel[x]
+            
+    #exposureCount = len(exposureLabel)
+    exposureCount = 0
+    print(str(exposureCount))
+    #for x in exposureList.get(len(exposureLabel), exposureList.size()):
     for x in exposureList.get(0, exposureList.size()):
         exposureLabel[exposureCount] = tk.Label(root, bg='#202245', fg='white', text=exposureList.get(exposureCount).split('-')[1].lstrip())
         print(exposureList.get(exposureCount))
@@ -322,7 +331,7 @@ def runGenerator():
     outputText.see("end")
     
     print()
-    with open(output, 'w') as myfile:
+    with open(outputPath, 'w') as myfile:
         wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
         wr.writerow(headers)
         for x in range(len(uniqueLineupsID)):
@@ -439,7 +448,7 @@ headers = ['CPT', 'FLEX', 'FLEX', 'FLEX', 'FLEX', 'FLEX']
 #avoidPairs = ['Mike Evans:Chris Godwin']
 #avoidPairs = ['Evan McPherson:Matt Gay','Van Jefferson:Odell Beckham Jr.','Ja\'Marr Chase:Joe Mixon','Tee Higgins:Tyler Boyd','Kendall Blanton:Drew Sample','Matt Gay:Matthew Stafford','Evan McPherson:Joe Burrow','Rams:Joe Burrow','Samaje Perine:Joe Mixon','Bengals:Matthew Stafford','Sony Michel:Cam Akers']
 
-output = '/Users/Dan/lineups_captain.csv'
+#output = '/Users/Dan/lineups_captain.csv'
 
 class PlayerDetails():
     def __init__(self, filename):
@@ -480,7 +489,7 @@ class Player:
 
 player = []
 
-data = PlayerDetails('/Users/Dan/Downloads/DKSalaries_captains.csv')
+data = PlayerDetails(inputPath)
 
 lineupCount = 10
 cptPoolID = []
@@ -490,15 +499,6 @@ root.mainloop()
 
 
 #print('CPT' + '\t' + 'FLEX' + '\t' + 'FLEX' + '\t' + 'FLEX' + '\t' + 'FLEX'+ '\t' + 'FLEX')
-    
-lineupCount=0
-lineups=[]
-lineupsID=[]
-
-flexLineupID=[]
-flexLineup=[]
-
-salary=[]
 
        
 #for x in lineups:
@@ -513,24 +513,3 @@ salary=[]
     #print(uniqueLineupsID[x])
     #for y in uniqueLineupsID[x]:
         #print(player[y].id)        
-
-
-#print total exposure for all players
-print("\nCPT DISTRIBUTION:")
-for x in range(len(cptPool)):
-    count = 0
-    for y in range(len(uniqueLineups)):
-        if cptPool[x] == uniqueLineups[y][0]:
-            count+=1
-    print('CPT  ' + cptPool[x] + ':  ' + str(count))  
-
-print("\nFLEX DISTRIBUTION:")
-for x in range(len(flexPool)):
-    count = 0
-    for y in range(len(uniqueLineups)):
-        if flexPool[x] in uniqueLineups[y] and uniqueLineups[y].index(flexPool[x]) != 0:
-            count+=1
-    print('FLEX ' + flexPool[x] + ':  ' + str(count))  
-
-
-print('\ngenerated ' + str(len(uniqueLineupsID)) + ' unique lineups worth more than $' + str(salaryLimit - salaryWaste))
