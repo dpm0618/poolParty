@@ -113,25 +113,25 @@ def runGenerator():
     cptPoolID = []
     for x in cptList.get(0,cptList.size()):
         cptPool.append(x.split('-')[1].lstrip())
-        print (x.split('-')[1].lstrip())
+        #print (x.split('-')[1].lstrip())
         
     flexPool = []
     flexPoolID = []
     for x in flexList.get(0,flexList.size()):
         flexPool.append(x.split('-')[1].lstrip())
-        print (x.split('-')[1].lstrip())
+        #print (x.split('-')[1].lstrip())
         
     for x in range(len(cptPool)):
         for y in range(len(player)):
-            if (player[y].name.strip() == cptPool[x].strip()) and (player[y].type == 'CPT'):
+            if (player[y].name.strip() == cptPool[x]) and (player[y].type == 'CPT'):
                 cptPoolID.append(y)
-                print('added ' + player[y].name + ' as CPT')
+                #print('added ' + player[y].name + ' as CPT')
                 
     for x in range(len(flexPool)):
         for y in range(len(player)):
-            if (player[y].name.strip() == flexPool[x].strip()) and (player[y].type == 'FLEX'):
+            if (player[y].name.strip() == flexPool[x]) and (player[y].type == 'FLEX'):
                 flexPoolID.append(y)
-                print('added ' + player[y].name + ' as FLEX')
+                #print('added ' + player[y].name + ' as FLEX')
         
     print(cptPoolID)
     print(flexPoolID)
