@@ -77,7 +77,7 @@ def printExposureSliders():
     print(str(exposureCount))
     #for x in exposureList.get(len(exposureLabel), exposureList.size()):
     for x in exposureList.get(0, exposureList.size()):
-        exposureLabel[exposureCount] = tk.Label(root, bg='#202245', fg='white', text=exposureList.get(exposureCount).split('-')[1].lstrip())
+        exposureLabel[exposureCount] = tk.Label(root, bg='#202245', fg='white', text=exposureList.get(exposureCount).split('~')[1].lstrip())
         print(exposureList.get(exposureCount))
         exposureLabel[exposureCount].place(x=375,y=(525 + (35 * exposureCount)))
         
@@ -112,14 +112,14 @@ def runGenerator():
     cptPool = []
     cptPoolID = []
     for x in cptList.get(0,cptList.size()):
-        cptPool.append(x.split('-')[1].lstrip())
-        print (x.split('-')[1].lstrip())
+        cptPool.append(x.split('~')[1].lstrip())
+        print (x.split('~')[1].lstrip())
         
     flexPool = []
     flexPoolID = []
     for x in flexList.get(0,flexList.size()):
-        flexPool.append(x.split('-')[1].lstrip())
-        print (x.split('-')[1].lstrip())
+        flexPool.append(x.split('~')[1].lstrip())
+        print (x.split('~')[1].lstrip())
         
     for x in range(len(cptPool)):
         for y in range(len(player)):
@@ -205,8 +205,8 @@ def runGenerator():
         tmpLineupsID = []
         
         for x in avoidPairList.get(0, "end"):
-            avoidA = x.split(':')[0].split('-')[1].lstrip()
-            avoidB = x.split(':')[1].split('-')[1].lstrip()
+            avoidA = x.split(':')[0].split('~')[1].lstrip()
+            avoidB = x.split(':')[1].split('~')[1].lstrip()
             print('avoiding lineups with ' + avoidA + ' and ' + avoidB)
             for y in range(len(uniqueLineupsID)):    
                 if avoidA not in uniqueLineups[y] or avoidB not in uniqueLineups[y]:
@@ -462,9 +462,9 @@ class PlayerDetails():
                     print("loaded rows: " + str(count))
                     #print(row)
                     player.append(Player(row[2], row[5], row[0], row[7], row[1], row[4], count))
-                    value = row[0] + " - " + row[2]
+                    value = row[0] + " ~ " + row[2]
                     if value not in playerList.get(0,"end"):
-                        playerList.insert(playerList.size(),row[0] + " - "+ row[2])
+                        playerList.insert(playerList.size(),row[0] + " ~ "+ row[2])
                     #print(player[count].name)
                 count+=1
                 
